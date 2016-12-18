@@ -1,0 +1,15 @@
+Package: justtest16
+Type: Package
+Title: justtest
+Version: 0.01
+Date: 2016-11-13
+Author: Saeid Amiri
+Maintainer: Saeid Amiri <saeid.amiri1@gmail.com>
+Description: This is just a test
+License: Apache2
+LazyData: true
+Imports:
+    seqinr,
+    MASS,
+    stats,
+    ape

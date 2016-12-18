@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Run KL</title>
+    
+    <!-- Include order: first jquery, then opencpu.js, and then your code -->
+    <script src="opencpu/jquery-1.10.2.min.js"></script>
+    <script src="opencpu/opencpu-0.4.js"></script>
+
+    <script>
+        ocpu.seturl("https://public.opencpu.org/ocpu/library/MASS/R")
+        ocpu.seturl("https://public.opencpu.org/ocpu/library/compiler/R")
+        ocpu.seturl("https://public.opencpu.org/ocpu/library/seqinr/R")
+    //init this script when the page has loaded
+    $(document).ready(function(){
+      $("#submitbutton").on("click", function(){
+        
+        //disable the button to prevent multiple clicks
+        $("#submitbutton").attr("disabled", "disabled");
+        
+        //arguments
+       // var myheader = $("#header").val() == "true";
+        var myfile = $("#csvfile")[0].files[0];
+        if(!myfile){
+          alert("No file selected.");
+          return;
+        }          
+          
+        //read the value for 'myname'
+        var nfield = parseInt($("#nfield").val());
+       // var distfield = $("#distfield").val();
+        
+          
+        //create the plot area on the plotdiv element
+        var req = $("#plotdiv").rplot("DKLd0", {
+          XDAT00 : myfile,
+          ell : nfield
+        })
+
+        //if R returns an error, alert the error message
+        req.fail(function(){
+          alert("Server error: " + req.responseText);
+        });
+        
+        //after request complete, re-enable the button 
+        req.always(function(){
+          $("#submitbutton").removeAttr("disabled")
+        });
+      });
+    });
+    </script>
+    
+    <style>
+      #plotdiv {
+        position: relative;
+        width: 600px;
+        height: 400px;
+        border: solid gray 1px;
+      }
+    </style>
+    
+  </head>
+    
+  <body>
+    <h1>Rund Alignment-Free</h1>
+    
+      
+        <b>Uploead the Fasta file</b> <input type="file" id="csvfile">
+    <br />
+      
+      
+    <b>kuple </b> <input type="number" id="nfield" value="2">
+    
+    
+    <br />
+    <button id="submitbutton" type="button">Submit to Run!</button>
+    <div id="plotdiv"></div>      
+    <br />
+
+    
+  </body>
+</html>
